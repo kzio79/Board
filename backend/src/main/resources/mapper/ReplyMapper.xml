@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.backend.mapper.ReplyMapper">
+
+    <resultMap id="replyMap" type="com.board.backend.model.ReplyDto">
+        <id property="replyId" column="reply_id"/>
+        <result property="boardId" column="board_id"/>
+        <result property="replyContent" column="reply_content"/>
+        <result property="replyDate" column="reply_date"/>
+    </resultMap>
+
+<!--    댓글 불러 오기-->
+    <select id="getReplyList" parameterType="int" resultType="com.board.backend.model.ReplyDto" resultMap="replyMap">
+        SELECT * FROM tb_reply WHERE board_id = #{boardId} ORDER BY reply_date DESC
+    </select>
+
+<!--    댓글 작성-->
+    <insert id="writeReply" parameterType="com.board.backend.model.ReplyDto">
+        INSERT INTO tb_reply (board_id, reply_content) VALUES (#{boardId}, #{replyContent})
+    </insert>
+
+<!--    댓글 선택 삭제-->
+    <delete id="deleteReply" parameterType="int">
+        DELETE
+        FROM tb_reply
+        WHERE reply_id = #{replyId}
+    </delete>
+</mapper>

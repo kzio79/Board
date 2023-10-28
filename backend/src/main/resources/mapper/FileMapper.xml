@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.backend.mapper.FileMapper">
+
+    <resultMap id="fileMap" type="com.board.backend.model.FileDto">
+        <id property="fileId" column="file_id"/>
+        <result property="boardId" column="board_id"/>
+        <result property="saveFileName" column="save_file_name"/>
+        <result property="originalFileName" column="original_file_name"/>
+        <result property="filePath" column="file_path" />
+    </resultMap>
+
+<!--    파일 저장-->
+    <insert id="insertFile" parameterType="com.board.backend.model.FileDto">
+        INSERT INTO
+            tb_file
+            (board_id, save_file_name, original_file_name, file_path)
+        VALUES
+            (#{boardId}, #{saveFileName}, #{originalFileName}, #{filePath})
+    </insert>
+
+<!--    파일 불러 오기-->
+    <select id="getFileList" parameterType="com.board.backend.model.FileDto" resultMap="fileMap">
+        SELECT * FROM
+                     tb_file
+                 WHERE
+                     board_id = #{boardId}
+    </select>
+
+<!--    파일 선택 삭제-->
+    <delete id="deleteSelectedFile" parameterType="int">
+        DELETE
+        FROM
+            tb_file
+        WHERE
+            file_id = #{fileId}
+    </delete>
+
+<!--    파일 다운로드-->
+    <select id="downloadFile" resultMap="fileMap">
+        SELECT *
+        FROM tb_file
+        WHERE board_id = #{boardId}
+          AND file_id = #{fileId}
+    </select>
+</mapper>

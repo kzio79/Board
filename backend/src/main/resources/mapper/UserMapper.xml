@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.backend.mapper.UserMapper">
+
+    <!--    회원 가입-->
+    <insert id="userSignup" parameterType="com.board.backend.model.UserDto">
+        INSERT INTO tb_user(user_id, user_pw, user_name)
+        VALUES (#{userId}, #{userPw}, #{userName})
+    </insert>
+
+    <!--    id 중복 확인-->
+    <select id="idChecked" parameterType="string" resultType="string">
+        SELECT user_id
+        FROM tb_user
+        WHERE user_id = #{ userId}
+    </select>
+
+    <!--    pw 확인-->
+    <select id="pwChecked" parameterType="string" resultType="string">
+        SELECT user_pw
+        FROM tb_user
+        WHERE user_id = #{userId}
+    </select>
+
+<!--    관리자 로그인 id 확인-->
+    <select id="adminIdChecked" parameterType="string" resultType="string">
+        SELECT admin_id
+        FROM tb_admin
+        WHERE admin_id = #{adminId}
+    </select>
+
+    <!--    관리자 로그인 pw 확인-->
+    <select id="adminPwChecked" parameterType="string" resultType="string">
+        SELECT admin_pw
+        FROM tb_admin
+        WHERE admin_id = #{adminId}
+    </select>
+</mapper>
